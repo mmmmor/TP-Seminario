@@ -5,7 +5,9 @@ const AuthContext = createContext();
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8000';
 const API = `${BACKEND_URL}/api`;
 
-function formatApiErrorDetail(detail) {
+function formatApiErrorDetail(error) {
+  const detail = error?.response?.data?.detail;
+  if (!error?.response) return 'No se pudo conectar con el servidor. Verificá tu conexión e intentá de nuevo.';
   if (detail == null) return 'Algo salió mal. Por favor intenta de nuevo.';
   if (typeof detail === 'string') return detail;
   if (Array.isArray(detail)) return detail.map((e) => (e && typeof e.msg === 'string' ? e.msg : JSON.stringify(e))).filter(Boolean).join(' ');
@@ -50,17 +52,21 @@ export const AuthProvider = ({ children }) => {
   const register = async (email, password, name) => {
     try {
       const { data } = await axios.post(`${API}/auth/register`, { email, password, name }, { withCredentials: true });
-      setUser(data);
+      setUser(data && typeof data === 'object' && data._id ? data : null);
       return { success: true };
-    } catch (error) { return { success: false, error: formatApiErrorDetail(error.response?.data?.detail) || error.message }; }
+    } catch (error) {
+      return { success: false, error: formatApiErrorDetail(error) };
+    }
   };
 
   const login = async (email, password) => {
     try {
       const { data } = await axios.post(`${API}/auth/login`, { email, password }, { withCredentials: true });
-      setUser(data);
+      setUser(data && typeof data === 'object' && data._id ? data : null);
       return { success: true };
-    } catch (error) { return { success: false, error: formatApiErrorDetail(error.response?.data?.detail) || error.message }; }
+    } catch (error) {
+      return { success: false, error: formatApiErrorDetail(error) };
+    }
   };
 
   const logout = async () => {
