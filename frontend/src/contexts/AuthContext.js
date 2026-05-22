@@ -18,6 +18,7 @@ function formatApiErrorDetail(error) {
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const authGenRef = React.useRef(0);
 
   useEffect(() => {
     const id = axios.interceptors.response.use(
@@ -43,15 +44,30 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => { checkAuth(); }, []);
 
   const checkAuth = async () => {
+    const gen = ++authGenRef.current;
     try {
       const { data } = await axios.get(`${API}/auth/me`, { withCredentials: true });
       setUser(data && typeof data === 'object' && data._id ? data : null);
-    } catch (error) { setUser(null); } finally { setLoading(false); }
+    } catch (err) {
+      if (authGenRef.current !== gen) return;
+      if (err.response?.status === 401) {
+        try {
+          await axios.post(`${API}/auth/refresh`, {}, { withCredentials: true });
+          const { data } = await axios.get(`${API}/auth/me`, { withCredentials: true });
+          setUser(data && typeof data === 'object' && data._id ? data : null);
+        } catch {
+          if (authGenRef.current === gen) setUser(null);
+        }
+      } else {
+        setUser(null);
+      }
+    } finally { setLoading(false); }
   };
 
   const register = async (email, password, name) => {
     try {
       const { data } = await axios.post(`${API}/auth/register`, { email, password, name }, { withCredentials: true });
+      authGenRef.current++;
       setUser(data && typeof data === 'object' && data._id ? data : null);
       return { success: true };
     } catch (error) {
@@ -62,6 +78,7 @@ export const AuthProvider = ({ children }) => {
   const login = async (email, password) => {
     try {
       const { data } = await axios.post(`${API}/auth/login`, { email, password }, { withCredentials: true });
+      authGenRef.current++;
       setUser(data && typeof data === 'object' && data._id ? data : null);
       return { success: true };
     } catch (error) {
