@@ -29,7 +29,7 @@ export const AuthProvider = ({ children }) => {
             orig.withCredentials = true;
             return axios(orig);
           } catch {
-            setUser(false);
+            setUser(null);
           }
         }
         return Promise.reject(err);
@@ -44,7 +44,7 @@ export const AuthProvider = ({ children }) => {
     try {
       const { data } = await axios.get(`${API}/auth/me`, { withCredentials: true });
       setUser(data);
-    } catch (error) { setUser(false); } finally { setLoading(false); }
+    } catch (error) { setUser(null); } finally { setLoading(false); }
   };
 
   const register = async (email, password, name) => {
@@ -66,7 +66,7 @@ export const AuthProvider = ({ children }) => {
   const logout = async () => {
     try {
       await axios.post(`${API}/auth/logout`, {}, { withCredentials: true });
-      setUser(false);
+      setUser(null);
     } catch (error) { console.error('Logout error:', error); }
   };
 
