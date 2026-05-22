@@ -24,6 +24,7 @@ function extractBarrio(address) {
 }
 
 function computeStats(reports) {
+  if (!Array.isArray(reports)) return { total: 0, pending: 0, resolved: 0, thisWeek: 0, barrios: 0, catMap: {}, barrioMap: {} };
   const weekAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
   const catMap    = {};
   const barrioMap = {};
@@ -50,8 +51,13 @@ export default function Landing() {
 
   useEffect(() => {
     axios.get(`${BACKEND_URL}/api/reports`)
-      .then(({ data }) => setReports(data))
-      .catch(err => console.error('Error cargando reportes:', err));
+      .then(({ data }) => {
+        setReports(Array.isArray(data) ? data : []);
+      })
+      .catch(err => {
+        console.error('Error cargando reportes:', err);
+        setReports([]);
+      });
   }, []);
 
   const stats          = computeStats(reports);
