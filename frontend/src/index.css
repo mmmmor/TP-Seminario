@@ -1,0 +1,142 @@
+/* src/index.css */
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
+@import url('https://fonts.cdnfonts.com/css/cabinet-grotesk');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  font-family: 'IBM Plex Sans', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  scroll-behavior: smooth;
+}
+
+body {
+  background: #ffffff;
+  color: #0a0a0a;
+}
+
+section[id] {
+  scroll-margin-top: 72px;
+}
+
+.font-heading {
+  font-family: 'Cabinet Grotesk', 'IBM Plex Sans', sans-serif;
+}
+
+.font-mono {
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+}
+
+/* Leaflet */
+.leaflet-container {
+  font-family: 'IBM Plex Sans', sans-serif;
+  background: #f5f5f4;
+  z-index: 0;
+}
+.leaflet-pane,
+.leaflet-top,
+.leaflet-bottom { z-index: 1; }
+.leaflet-control-container .leaflet-top,
+.leaflet-control-container .leaflet-bottom { z-index: 10; }
+.custom-marker-icon { background: transparent; border: none; }
+
+/* ── DARK MODE ── */
+html, body { transition: background-color 200ms ease; }
+
+html.iv-dark,
+html.iv-dark body { background-color: #0a0a0a; color: #f5f5f5; }
+
+html.iv-dark [class*="bg-white"]        { background-color: #141414 !important; }
+html.iv-dark [class*="bg-neutral-50"]   { background-color: #0f0f0f !important; }
+html.iv-dark [class*="bg-neutral-100"]  { background-color: #1a1a1a !important; }
+html.iv-dark [class*="bg-neutral-200"]  { background-color: #262626 !important; }
+html.iv-dark [class*="bg-neutral-300"]  { background-color: #2e2e2e !important; }
+html.iv-dark [class*="bg-neutral-900"]  { background-color: #1f1f1f !important; }
+html.iv-dark [class*="bg-neutral-950"]  { background-color: #050505 !important; }
+
+html.iv-dark [class*="text-neutral-900"] { color: #f5f5f5 !important; }
+html.iv-dark [class*="text-neutral-800"] { color: #ededed !important; }
+html.iv-dark [class*="text-neutral-700"] { color: #d4d4d4 !important; }
+html.iv-dark [class*="text-neutral-600"] { color: #a3a3a3 !important; }
+html.iv-dark [class*="text-neutral-500"] { color: #909090 !important; }
+html.iv-dark [class*="text-neutral-400"] { color: #757575 !important; }
+html.iv-dark [class*="text-neutral-300"] { color: #5e5e5e !important; }
+
+html.iv-dark [class*="border-neutral-200"] { border-color: #2a2a2a !important; }
+html.iv-dark [class*="border-neutral-300"] { border-color: #333333 !important; }
+html.iv-dark [class*="border-neutral-900"] { border-color: #f5f5f5 !important; }
+
+html.iv-dark [class*="hover:bg-neutral-50"]:hover  { background-color: #1f1f1f !important; }
+html.iv-dark [class*="hover:bg-neutral-100"]:hover { background-color: #242424 !important; }
+
+html.iv-dark .iv-hero-grid {
+  opacity: 0.28 !important;
+  background-image:
+    linear-gradient(to right, #525252 1px, transparent 1px),
+    linear-gradient(to bottom, #525252 1px, transparent 1px) !important;
+}
+
+html.iv-dark .leaflet-tile-pane {
+  filter: invert(1) hue-rotate(180deg) brightness(0.95) contrast(0.9);
+}
+html.iv-dark .leaflet-container { background: #0f0f0f; }
+
+button, a { -webkit-tap-highlight-color: transparent; }
+
+/* ── LIVE PREVIEW MAP (Hero) ── */
+.iv-live-marker { background: transparent; border: none; overflow: visible !important; }
+.iv-live-mini {
+  width: 10px; height: 10px; border-radius: 9999px;
+  border: 2px solid white; box-shadow: 0 1px 3px rgba(0,0,0,0.3); opacity: 0.85;
+}
+.iv-live-pin { position: relative; width: 60px; height: 60px; overflow: visible; }
+.iv-live-pin .iv-live-dot {
+  position: absolute; left: 50%; top: 50%; width: 14px; height: 14px;
+  margin: -7px 0 0 -7px; border-radius: 9999px; border: 3px solid white;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.35); z-index: 2;
+}
+.iv-live-pin .iv-live-pulse {
+  position: absolute; left: 50%; top: 50%; width: 14px; height: 14px;
+  margin: -7px 0 0 -7px; border-radius: 9999px; opacity: 0.55; z-index: 1;
+  animation: iv-live-pulse 2s ease-out infinite;
+}
+@keyframes iv-live-pulse {
+  0%   { transform: scale(1);   opacity: 0.55; }
+  100% { transform: scale(3.2); opacity: 0; }
+}
+.iv-hero-map-stage .leaflet-pane,
+.iv-hero-map-stage .leaflet-marker-pane,
+.iv-hero-map-stage .leaflet-marker-icon,
+.iv-hero-map-stage .leaflet-shadow-pane { overflow: visible !important; }
+.iv-hero-map-perspective { perspective: 900px; perspective-origin: 50% 80%; }
+.iv-hero-map-stage {
+  transform-origin: 50% 60%;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  animation: iv-hero-map-yaw 22s ease-in-out infinite alternate both;
+}
+@keyframes iv-hero-map-yaw {
+  0%   { transform: rotateX(38deg) rotateZ(-8deg) scale(1.45); }
+  100% { transform: rotateX(38deg) rotateZ(8deg)  scale(1.45); }
+}
+.iv-hero-map-stage .leaflet-pane,
+.iv-hero-map-stage .leaflet-marker-pane,
+.iv-hero-map-stage .leaflet-marker-icon { transform-style: preserve-3d; }
+.iv-hero-map-stage .iv-live-pin,
+.iv-hero-map-stage .iv-live-mini { transform: rotateX(-38deg); transform-origin: 50% 100%; }
+.iv-hero-map-stage .iv-live-pin { filter: drop-shadow(0 6px 4px rgba(0,0,0,0.25)); }
+@keyframes iv-live-card-fade {
+  0%   { opacity: 0; transform: translateY(4px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+.iv-live-card-in { animation: iv-live-card-fade 500ms ease-out; }
+
+@keyframes iv-overlay-fadeout {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+.iv-overlay-hidden {
+  animation: iv-overlay-fadeout 900ms ease 250ms both;
+}
