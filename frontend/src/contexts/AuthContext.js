@@ -43,7 +43,7 @@ export const AuthProvider = ({ children }) => {
   const checkAuth = async () => {
     try {
       const { data } = await axios.get(`${API}/auth/me`, { withCredentials: true });
-      setUser(data);
+      setUser(data && typeof data === 'object' && data._id ? data : null);
     } catch (error) { setUser(null); } finally { setLoading(false); }
   };
 
