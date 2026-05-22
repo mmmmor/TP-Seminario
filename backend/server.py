@@ -297,7 +297,9 @@ async def refresh_access_token(request: Request, response: Response):
         raise HTTPException(status_code=401, detail="Invalid refresh token")
 
 @api_router.get("/auth/me")
-async def get_me(request: Request):
+async def get_me(request: Request, response: Response):
+    response.headers["Cache-Control"] = "no-store, no-cache, must-revalidate"
+    response.headers["Pragma"] = "no-cache"
     return await get_current_user(request)
 
 @api_router.post("/reports")
