@@ -218,7 +218,7 @@ function LivePreviewCard({ reports }) {
         <div className="px-3 py-2 border-b border-neutral-200 flex items-center justify-between">
           <span className="text-[10px] font-bold uppercase tracking-widest text-neutral-500">
             {recentReports.length > 0 ? (
-              <>Últimas 12 hs <span className="text-neutral-400 font-mono">· {activeIdx + 1}/{recentReports.length}</span></>
+              <>Últimos reportes <span className="text-neutral-400 font-mono">· {activeIdx + 1}/{recentReports.length}</span></>
             ) : 'Último reporte'}
           </span>
           <span className="text-[10px] font-mono text-neutral-400">{timeLabel}</span>

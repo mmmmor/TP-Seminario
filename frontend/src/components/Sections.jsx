@@ -348,9 +348,22 @@ function FooterCol({ title, links }) {
     <div className="col-span-6 md:col-span-2 lg:col-span-2">
       <h4 className="text-[10px] font-bold uppercase tracking-widest text-white mb-4">{title}</h4>
       <ul className="space-y-2.5">
-        {links.map((l) => (
-          <li key={l}><a href="#" className="text-[12.5px] text-neutral-400 hover:text-white transition-colors">{l}</a></li>
-        ))}
+        {links.map((l) => {
+          const label = typeof l === 'string' ? l : l.label;
+          const href  = typeof l === 'string' ? '#' : l.href;
+          const ext   = href !== '#';
+          return (
+            <li key={label}>
+              <a
+                href={href}
+                {...(ext ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                className="text-[12.5px] text-neutral-400 hover:text-white transition-colors"
+              >
+                {label}
+              </a>
+            </li>
+          );
+        })}
       </ul>
     </div>
   );
@@ -374,14 +387,14 @@ export function Footer() {
               <span className="px-2 py-1 text-[9px] font-bold uppercase tracking-widest border border-neutral-800 text-neutral-500">Grupo 8 · Seminario</span>
             </div>
           </div>
-          <FooterCol title="Producto"   links={['Mapa', 'Categorías', 'Cómo funciona', 'Roadmap']}/>
-          <FooterCol title="Comunidad"  links={['Blog vecinal', 'Estadísticas', 'Barrios cubiertos', 'API pública']}/>
-          <FooterCol title="Legal"      links={['Privacidad', 'Términos', 'Ley 25.326', 'Contacto']}/>
+          <FooterCol title="Producto"   links={['Mapa', 'Categorías', 'Cómo funciona']}/>
+          <FooterCol title="Comunidad"  links={['Estadísticas', 'Barrios cubiertos', { label: 'API pública', href: 'https://leafletjs.com/index.html' }]}/>
+          <FooterCol title="Legal"      links={['Privacidad', 'Términos', 'Contacto']}/>
         </div>
         <div className="mt-12 pt-6 border-t border-neutral-900 flex flex-wrap items-center justify-between gap-4">
           <div className="text-[11px] font-mono text-neutral-500">© 2026 InfoCba · Córdoba, Argentina · Hecho con vecinos, para vecinos.</div>
           <div className="flex items-center gap-4 text-[11px] font-mono text-neutral-500">
-            <span>Mapas: CARTO / IDECOR</span><span>·</span><span>31.4201°S, 64.1888°O</span>
+            <span>Mapa: Leaflet</span>
           </div>
         </div>
       </div>
