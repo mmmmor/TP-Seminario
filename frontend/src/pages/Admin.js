@@ -785,7 +785,7 @@ export default function Admin() {
         <div className="max-w-[1320px] mx-auto px-6 lg:px-10 h-16 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2.5 no-underline">
             <Logo />
-            <span className="font-heading font-bold tracking-tight text-[22px] text-neutral-900">InfoVía</span>
+            <span className="font-heading font-bold tracking-tight text-[22px] text-neutral-900">InfoCba</span>
             <span className="hidden md:inline-block ml-2 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-widest text-neutral-500 border border-neutral-200">
               Admin
             </span>
@@ -804,7 +804,7 @@ export default function Admin() {
 
         {/* Eyemark + título */}
         <div className="text-[10px] font-mono uppercase tracking-[0.18em] text-neutral-400 mb-5">
-          Panel · InfoVía
+          Panel · InfoCba
         </div>
         <h1 className="font-heading font-bold text-[52px] tracking-[-0.03em] text-neutral-900 leading-[0.92] mb-10">
           Control<br />central.

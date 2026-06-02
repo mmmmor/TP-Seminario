@@ -50,7 +50,7 @@ export default function Register() {
           <Link to="/" className="flex items-center gap-2.5 no-underline">
             <Logo />
             <span className="font-heading font-bold tracking-tight text-[22px] text-neutral-900">
-              InfoVía
+              InfoCba
             </span>
             <span className="hidden md:inline-block ml-2 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-widest text-neutral-500 border border-neutral-200">
               Córdoba
@@ -71,7 +71,7 @@ export default function Register() {
 
           {/* Eyemark */}
           <div className="text-[10px] font-mono uppercase tracking-[0.18em] text-neutral-400 mb-5">
-            Registro · InfoVía
+            Registro · InfoCba
           </div>
 
           {/* Título */}

@@ -364,7 +364,7 @@ export function Footer() {
           <div className="col-span-12 md:col-span-5">
             <div className="flex items-center gap-2.5">
               <Logo/>
-              <span className="font-heading font-bold tracking-tight text-[22px] text-white">InfoVía</span>
+              <span className="font-heading font-bold tracking-tight text-[22px] text-white">InfoCba</span>
             </div>
             <p className="mt-5 text-[13px] leading-relaxed max-w-sm">
               Plataforma ciudadana para reportar y consultar problemas urbanos en la Ciudad de Córdoba.
@@ -379,7 +379,7 @@ export function Footer() {
           <FooterCol title="Legal"      links={['Privacidad', 'Términos', 'Ley 25.326', 'Contacto']}/>
         </div>
         <div className="mt-12 pt-6 border-t border-neutral-900 flex flex-wrap items-center justify-between gap-4">
-          <div className="text-[11px] font-mono text-neutral-500">© 2026 InfoVía · Córdoba, Argentina · Hecho con vecinos, para vecinos.</div>
+          <div className="text-[11px] font-mono text-neutral-500">© 2026 InfoCba · Córdoba, Argentina · Hecho con vecinos, para vecinos.</div>
           <div className="flex items-center gap-4 text-[11px] font-mono text-neutral-500">
             <span>Mapas: CARTO / IDECOR</span><span>·</span><span>31.4201°S, 64.1888°O</span>
           </div>

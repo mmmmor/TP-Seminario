@@ -410,7 +410,7 @@ export default function Hero({ stats = {}, reports = [] }) {
               </span>
             </h1>
             <p className="mt-10 max-w-xl text-[17px] leading-[1.55] text-neutral-600">
-              InfoVía centraliza los problemas de la vía pública de Córdoba en un solo lugar.
+              InfoCba centraliza los problemas de la vía pública de Córdoba en un solo lugar.
               Reportalos en segundos, seguilos en el mapa, y enterate qué está pasando en tu barrio antes de salir.
             </p>
             <div className="mt-10 flex flex-wrap items-center gap-3">

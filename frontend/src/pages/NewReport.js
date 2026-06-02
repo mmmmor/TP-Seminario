@@ -217,7 +217,7 @@ export default function NewReport() {
         {/* Encabezado de página */}
         <div className="mb-10">
           <div className="text-[10px] font-mono uppercase tracking-[0.18em] text-neutral-400 mb-4">
-            Nuevo reporte · InfoVía
+            Nuevo reporte · InfoCba
           </div>
           <h1 className="font-heading font-bold text-[52px] tracking-[-0.03em] text-neutral-900 leading-[0.92]">
             Reportar<br />un problema.

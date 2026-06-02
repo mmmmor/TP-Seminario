@@ -41,7 +41,7 @@ export function Header() {
         <div className="flex justify-between items-center h-16">
           <Link to="/" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="flex items-center gap-2.5">
             <Logo />
-            <span className="font-heading font-bold tracking-tight text-[22px] text-neutral-900">InfoVía</span>
+            <span className="font-heading font-bold tracking-tight text-[22px] text-neutral-900">InfoCba</span>
             <span className="hidden md:inline-block ml-2 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-widest text-neutral-500 border border-neutral-200">
               Córdoba
             </span>

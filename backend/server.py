@@ -28,7 +28,7 @@ api_router = APIRouter(prefix="/api")
 JWT_ALGORITHM = "HS256"
 STORAGE_URL = "https://integrations.emergentagent.com/objstore/api/v1/storage"
 EMERGENT_KEY = os.environ.get("EMERGENT_LLM_KEY")
-APP_NAME = "infovia"
+APP_NAME = "infocba"
 storage_key = None
 
 logging.basicConfig(
@@ -193,7 +193,7 @@ class StatsResponse(BaseModel):
     by_category: dict
 
 async def seed_admin():
-    admin_email = os.environ.get("ADMIN_EMAIL", "admin@infovia.com").lower()
+    admin_email = os.environ.get("ADMIN_EMAIL", "admin@infocba.com").lower()
     admin_password = os.environ.get("ADMIN_PASSWORD", "Admin123!")
     
     existing = await db.users.find_one({"email": admin_email})
@@ -202,7 +202,7 @@ async def seed_admin():
         await db.users.insert_one({
             "email": admin_email,
             "password_hash": hashed,
-            "name": "InfoVía",
+            "name": "InfoCba",
             "role": "admin",
             "created_at": datetime.now(timezone.utc).isoformat()
         })
