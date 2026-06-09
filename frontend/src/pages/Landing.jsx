@@ -1,5 +1,6 @@
 // src/pages/Landing.jsx
 import { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { Header } from '../components/Header';
 import Hero from '../components/Hero';
@@ -48,7 +49,15 @@ function computeStats(reports) {
 }
 
 export default function Landing() {
+  const location = useLocation();
   const [reports, setReports] = useState([]);
+
+  useEffect(() => {
+    if (location.hash) {
+      const el = document.getElementById(location.hash.slice(1));
+      if (el) requestAnimationFrame(() => el.scrollIntoView({ behavior: 'smooth' }));
+    }
+  }, [location.hash]);
 
   useEffect(() => {
     axios.get(`${BACKEND_URL}/api/reports`)
