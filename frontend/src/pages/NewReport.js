@@ -213,13 +213,10 @@ export default function NewReport() {
       </div>
 
       {/* Contenido */}
-      <main className="relative z-10 flex-1 max-w-[1320px] mx-auto w-full px-6 lg:px-10 py-14">
+      <main className="relative z-10 flex-1 max-w-[1320px] mx-auto w-full px-6 lg:px-10 py-6">
 
         {/* Encabezado de página */}
-        <div className="mb-10">
-          <div className="text-[10px] font-mono uppercase tracking-[0.18em] text-neutral-400 mb-4">
-            Nuevo reporte · InfoCba
-          </div>
+        <div className="mb-6">
           <h1 className="font-heading font-bold text-[52px] tracking-[-0.03em] text-neutral-900 leading-[0.92]">
             Reportar<br />un problema.
           </h1>
