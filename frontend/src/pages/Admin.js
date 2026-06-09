@@ -18,6 +18,7 @@ const categoryLabels = {
   residuos:     'Residuos',
   construccion: 'Construcción',
   extravios:    'Extravíos',
+  otros:        'Otros',
 };
 
 const categoryColors = {
@@ -26,6 +27,7 @@ const categoryColors = {
   residuos:     '#F97316',
   construccion: '#FACC15',
   extravios:    '#0EA5E9',
+  otros:        '#6B7280',
 };
 
 const SORT_OPTIONS = [
@@ -55,7 +57,7 @@ const SORT_OPTIONS = [
   },
 ];
 
-const CATEGORIES = ['todos', 'baches', 'alumbrado', 'residuos', 'construccion', 'extravios'];
+const CATEGORIES = ['todos', 'baches', 'alumbrado', 'residuos', 'construccion', 'extravios', 'otros'];
 
 function SortMenu({ value, onChange, onClose }) {
   const ref = useRef(null);

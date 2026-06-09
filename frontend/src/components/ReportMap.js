@@ -9,6 +9,7 @@ const categoryColors = {
   residuos:     '#F97316',
   construccion: '#FACC15',
   extravios:    '#0EA5E9',
+  otros:        '#6B7280',
   default:      '#7C3AED',
 };
 

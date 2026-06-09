@@ -15,6 +15,7 @@ const CATEGORY_COLORS = {
   residuos:     '#F97316',
   construccion: '#FACC15',
   extravios:    '#0EA5E9',
+  otros:        '#6B7280',
 };
 
 function extractBarrio(address) {

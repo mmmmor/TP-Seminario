@@ -18,6 +18,7 @@ const categoryLabels = {
   residuos:     'Residuos',
   construccion: 'Construcción',
   extravios:    'Extravíos',
+  otros:        'Otros',
 };
 
 const defaultIcon = L.divIcon({

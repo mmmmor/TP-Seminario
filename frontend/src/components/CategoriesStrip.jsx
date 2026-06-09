@@ -7,6 +7,7 @@ const TILES = [
   { id: 'residuos',     color: '#F97316', name: 'Residuos',     blurb: 'Contenedores desbordados, microbasurales.' },
   { id: 'construccion', color: '#FACC15', name: 'Construcción', blurb: 'Obras en curso, cortes parciales o desvíos en la zona.' },
   { id: 'extravios',    color: '#0EA5E9', name: 'Extravíos',    blurb: 'Objetos, mascotas o documentos perdidos.' },
+  { id: 'otros',        color: '#6B7280', name: 'Otros',        blurb: 'Cualquier situación que no encaje en las categorías anteriores.' },
 ];
 
 function CategoryTile({ color, name, count, blurb }) {
@@ -36,14 +37,14 @@ export default function CategoriesStrip({ catCounts = {} }) {
           <div>
             <SectionEyemark>02 · Categorías</SectionEyemark>
             <h2 className="font-heading font-bold text-[34px] lg:text-[44px] tracking-[-0.02em] text-neutral-900 leading-[1] mt-2">
-              Cinco formas de mejorar el barrio.
+              Seis formas de mejorar el barrio.
             </h2>
           </div>
           <div className="text-[11px] font-mono text-neutral-500 max-w-xs">
             Cada reporte se clasifica al cargarse. El color te ayuda a leer el mapa de un vistazo.
           </div>
         </div>
-        <div className="grid grid-cols-2 lg:grid-cols-5 gap-px bg-neutral-200 border border-neutral-200">
+        <div className="grid grid-cols-2 lg:grid-cols-6 gap-px bg-neutral-200 border border-neutral-200">
           {TILES.map(t => (
             <CategoryTile
               key={t.id}

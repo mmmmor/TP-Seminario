@@ -8,7 +8,10 @@ const styles = {
   categories: {
     baches: 'bg-red-500',
     residuos: 'bg-orange-500',
-    alumbrado: 'bg-violet-500'
+    alumbrado: 'bg-violet-500',
+    construccion: 'bg-yellow-400',
+    extravios: 'bg-sky-500',
+    otros: 'bg-gray-500',
   },
   status: {
     pending: 'bg-amber-500',

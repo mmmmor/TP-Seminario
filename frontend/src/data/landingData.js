@@ -121,6 +121,7 @@ export const CATEGORIES = [
   { id: 'residuos',     label: 'Residuos',     color: '#F97316' },
   { id: 'construccion', label: 'Construcción', color: '#FACC15' },
   { id: 'extravios',    label: 'Extravíos',    color: '#0EA5E9' },
+  { id: 'otros',        label: 'Otros',        color: '#6B7280' },
 ];
 
 export const STATS = {
@@ -138,6 +139,7 @@ export const CATEGORY_BREAKDOWN = [
   { id: 'residuos',     label: 'Residuos',     count:  47, color: '#F97316' },
   { id: 'construccion', label: 'Construcción', count:  30, color: '#FACC15' },
   { id: 'extravios',    label: 'Extravíos',    count:  18, color: '#0EA5E9' },
+  { id: 'otros',        label: 'Otros',        count:   9, color: '#6B7280' },
 ];
 
 export const CATEGORY_GALLERY = {
@@ -160,6 +162,10 @@ export const CATEGORY_GALLERY = {
   extravios: [
     'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=900&q=80',
     'https://images.unsplash.com/photo-1551006917-3b4c2dba2c4e?w=900&q=80',
+  ],
+  otros: [
+    'https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=900&q=80',
+    'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=900&q=80',
   ],
 };
 

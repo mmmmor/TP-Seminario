@@ -382,7 +382,7 @@ async def get_stats():
     total = await db.reports.count_documents({})
     pending = await db.reports.count_documents({"status": "pending"})
     resolved = await db.reports.count_documents({"status": "resolved"})
-    by_category = {cat: await db.reports.count_documents({"category": cat}) for cat in ["baches", "residuos", "alumbrado"]}
+    by_category = {cat: await db.reports.count_documents({"category": cat}) for cat in ["baches", "residuos", "alumbrado", "construccion", "extravios", "otros"]}
     return {"total": total, "pending": pending, "resolved": resolved, "by_category": by_category}
 
 @api_router.patch("/reports/{report_id}")
