@@ -123,6 +123,7 @@ const CAT_OPTIONS = [
   { id: 'residuos',     label: 'Residuos',     color: '#F97316' },
   { id: 'construccion', label: 'Construcción', color: '#FACC15' },
   { id: 'extravios',    label: 'Extravíos',    color: '#0EA5E9' },
+  { id: 'otros',        label: 'Otros',        color: '#9CA3AF' },
 ];
 
 function SortMenu({ value, onChange, catValue, onCatChange, onClose }) {
@@ -243,6 +244,7 @@ function MicroStat({ label, value, delta, deltaTone, tone }) {
 
 export default function MapFeed() {
   const { user } = useAuth();
+  const navigate = useNavigate();
   const [reports, setReports]     = useState([]);
   const [filter, setFilter]       = useState('all');
   const [sort, setSort]           = useState('relevant');
@@ -340,8 +342,8 @@ export default function MapFeed() {
     });
   }, [filter, sort, catFilter, mapReady, activeReport, reports]);
 
-  const CAT_LABELS = { baches: 'Baches', alumbrado: 'Alumbrado', residuos: 'Residuos', construccion: 'Construcción', extravios: 'Extravíos' };
-  const CAT_COLORS = { baches: '#EF4444', alumbrado: '#8B5CF6', residuos: '#F97316', construccion: '#FACC15', extravios: '#0EA5E9' };
+  const CAT_LABELS = { baches: 'Baches', alumbrado: 'Alumbrado', residuos: 'Residuos', construccion: 'Construcción', extravios: 'Extravíos', otros: 'Otros' };
+  const CAT_COLORS = { baches: '#EF4444', alumbrado: '#8B5CF6', residuos: '#F97316', construccion: '#FACC15', extravios: '#0EA5E9', otros: '#9CA3AF' };
 
   const microStats = (() => {
     const weekAgo  = Date.now() - 7 * 86400000;
