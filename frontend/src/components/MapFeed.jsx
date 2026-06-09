@@ -71,7 +71,7 @@ function VoteColumn({ score, userVote, onVote }) {
   );
 }
 
-function AuthPopup({ onClose }) {
+function AuthPopup({ onClose, message = 'Iniciá sesión o creá una cuenta gratis para votar los reportes.' }) {
   const navigate = useNavigate();
   return (
     <div className="fixed inset-0 z-[200] flex items-center justify-center" onClick={onClose}>
@@ -95,7 +95,7 @@ function AuthPopup({ onClose }) {
             Solo para usuarios registrados.
           </h3>
           <p className="mt-2 text-[13px] text-neutral-500 leading-relaxed">
-            Iniciá sesión o creá una cuenta gratis para votar los reportes.
+            {message}
           </p>
         </div>
         <div className="flex flex-col gap-2">
@@ -391,7 +391,7 @@ export default function MapFeed() {
               <input type="text" placeholder="Buscar por dirección o barrio"
                 className="flex-1 bg-transparent border-0 outline-none text-[12px] placeholder:text-neutral-400 text-neutral-900"/>
             </div>
-            <button onClick={() => user ? navigate('/nuevo-reporte') : setAuthPopup(true)} className="h-10 px-4 bg-[#7C3AED] text-white text-[11px] font-bold uppercase tracking-widest hover:bg-[#6D28D9] transition-colors inline-flex items-center gap-2">
+            <button onClick={() => user ? navigate('/nuevo-reporte') : setAuthPopup('reporte')} className="h-10 px-4 bg-[#7C3AED] text-white text-[11px] font-bold uppercase tracking-widest hover:bg-[#6D28D9] transition-colors inline-flex items-center gap-2">
               <PlusIcon className="w-3.5 h-3.5"/>
               Nuevo reporte
             </button>
@@ -494,7 +494,7 @@ export default function MapFeed() {
           onVote={(dir) => handleVote(detailReport.id, dir)}
         />
       )}
-      {authPopup && <AuthPopup onClose={() => setAuthPopup(false)}/>}
+      {authPopup && <AuthPopup onClose={() => setAuthPopup(false)} message={authPopup === 'reporte' ? 'Iniciá sesión o creá una cuenta gratis para agregar nuevos reportes.' : 'Iniciá sesión o creá una cuenta gratis para votar los reportes.'}/>}
     </section>
   );
 }
