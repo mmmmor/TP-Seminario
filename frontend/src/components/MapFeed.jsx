@@ -391,7 +391,7 @@ export default function MapFeed() {
               <input type="text" placeholder="Buscar por dirección o barrio"
                 className="flex-1 bg-transparent border-0 outline-none text-[12px] placeholder:text-neutral-400 text-neutral-900"/>
             </div>
-            <button className="h-10 px-4 bg-[#7C3AED] text-white text-[11px] font-bold uppercase tracking-widest hover:bg-[#6D28D9] transition-colors inline-flex items-center gap-2">
+            <button onClick={() => navigate(user ? '/nuevo-reporte' : '/registro')} className="h-10 px-4 bg-[#7C3AED] text-white text-[11px] font-bold uppercase tracking-widest hover:bg-[#6D28D9] transition-colors inline-flex items-center gap-2">
               <PlusIcon className="w-3.5 h-3.5"/>
               Nuevo reporte
             </button>
