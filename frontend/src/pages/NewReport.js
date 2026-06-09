@@ -189,7 +189,7 @@ export default function NewReport() {
   };
 
   return (
-    <div className="min-h-screen bg-neutral-50 flex flex-col">
+    <div className="h-screen overflow-hidden bg-neutral-50 flex flex-col">
 
       <style>{`
         @keyframes iv-auth-grid-drift {
@@ -213,20 +213,20 @@ export default function NewReport() {
       </div>
 
       {/* Contenido */}
-      <main className="relative z-10 flex-1 max-w-[1320px] mx-auto w-full px-6 lg:px-10 py-6">
+      <main className="relative z-10 flex-1 min-h-0 max-w-[1320px] mx-auto w-full px-6 lg:px-10 py-4 flex flex-col">
 
         {/* Encabezado de página */}
-        <div className="mb-6">
+        <div className="mb-4">
           <h1 className="font-heading font-bold text-[52px] tracking-[-0.03em] text-neutral-900 leading-[0.92]">
             Reportar<br />un problema.
           </h1>
         </div>
 
         {/* Grid de dos columnas */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-px bg-neutral-300 border border-neutral-300">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-px bg-neutral-300 border border-neutral-300 flex-1 min-h-0">
 
           {/* ── COLUMNA IZQUIERDA: Formulario ── */}
-          <div className="bg-white">
+          <div className="bg-white overflow-y-auto">
 
             {/* Error de envío */}
             {submitError && (
@@ -438,7 +438,7 @@ export default function NewReport() {
             </div>
 
             {/* Mapa */}
-            <div className="flex-1 min-h-[480px] z-0 relative">
+            <div className="flex-1 min-h-0 z-0 relative">
               <MapContainer
                 center={[-31.4201, -64.1888]}
                 zoom={13}
