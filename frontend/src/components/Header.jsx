@@ -47,10 +47,10 @@ export function Header() {
             </span>
           </Link>
           <nav className="hidden md:flex items-center gap-6">
-            <a href="#categorias" className="text-[12px] font-semibold uppercase tracking-widest text-neutral-600 hover:text-neutral-900">Categorías</a>
-            <a href="#mapa" className="text-[12px] font-semibold uppercase tracking-widest text-neutral-600 hover:text-neutral-900">Mapa</a>
-            <a href="#como" className="text-[12px] font-semibold uppercase tracking-widest text-neutral-600 hover:text-neutral-900">Cómo funciona</a>
-            <a href="#sumate" className="text-[12px] font-semibold uppercase tracking-widest text-neutral-600 hover:text-neutral-900">Sumate</a>
+            <Link to="/#categorias" className="text-[12px] font-semibold uppercase tracking-widest text-neutral-600 hover:text-neutral-900">Categorías</Link>
+            <Link to="/#mapa" className="text-[12px] font-semibold uppercase tracking-widest text-neutral-600 hover:text-neutral-900">Mapa</Link>
+            <Link to="/#como" className="text-[12px] font-semibold uppercase tracking-widest text-neutral-600 hover:text-neutral-900">Cómo funciona</Link>
+            <Link to="/#sumate" className="text-[12px] font-semibold uppercase tracking-widest text-neutral-600 hover:text-neutral-900">Sumate</Link>
           </nav>
           <div className="flex items-center gap-2">
             <DarkModeToggle />
