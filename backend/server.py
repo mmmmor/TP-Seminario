@@ -369,7 +369,9 @@ async def vote_report(report_id: str, input: VoteInput, request: Request):
         user_vote = input.direction
     ups   = await db.votes.count_documents({"report_id": report_id, "direction": "up"})
     downs = await db.votes.count_documents({"report_id": report_id, "direction": "down"})
-    return {"score": ups - downs, "user_vote": user_vote}
+    report_doc = await db.reports.find_one({"id": report_id}, {"vote_score_override": 1})
+    override = (report_doc or {}).get("vote_score_override", 0) or 0
+    return {"score": override + ups - downs, "user_vote": user_vote}
 
 @api_router.get("/votes/mine")
 async def get_my_votes(request: Request):
