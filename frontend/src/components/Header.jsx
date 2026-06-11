@@ -47,10 +47,10 @@ export function Header() {
             </span>
           </Link>
           <nav className="hidden md:flex items-center gap-6">
-            <Link to="/#categorias" className="text-[12px] font-semibold uppercase tracking-widest text-neutral-600 hover:text-neutral-900">Categorías</Link>
-            <Link to="/#mapa" className="text-[12px] font-semibold uppercase tracking-widest text-neutral-600 hover:text-neutral-900">Mapa</Link>
-            <Link to="/#como" className="text-[12px] font-semibold uppercase tracking-widest text-neutral-600 hover:text-neutral-900">Cómo funciona</Link>
-            <Link to="/#sumate" className="text-[12px] font-semibold uppercase tracking-widest text-neutral-600 hover:text-neutral-900">Sumate</Link>
+            <Link to="/#categorias" onClick={() => document.getElementById('categorias')?.scrollIntoView({ behavior: 'smooth' })} className="text-[12px] font-semibold uppercase tracking-widest text-neutral-600 hover:text-neutral-900">Categorías</Link>
+            <Link to="/#mapa" onClick={() => document.getElementById('mapa')?.scrollIntoView({ behavior: 'smooth' })} className="text-[12px] font-semibold uppercase tracking-widest text-neutral-600 hover:text-neutral-900">Mapa</Link>
+            <Link to="/#como" onClick={() => document.getElementById('como')?.scrollIntoView({ behavior: 'smooth' })} className="text-[12px] font-semibold uppercase tracking-widest text-neutral-600 hover:text-neutral-900">Cómo funciona</Link>
+            <Link to="/#sumate" onClick={() => document.getElementById('sumate')?.scrollIntoView({ behavior: 'smooth' })} className="text-[12px] font-semibold uppercase tracking-widest text-neutral-600 hover:text-neutral-900">Sumate</Link>
           </nav>
           <div className="flex items-center gap-2">
             <DarkModeToggle />

@@ -328,7 +328,11 @@ export function ClosingCTA() {
               <Link to="/registro" className="h-12 px-6 bg-white text-[#7C3AED] text-[12px] font-bold uppercase tracking-widest hover:bg-neutral-100 transition-colors inline-flex items-center gap-2">
                 Registrarme <span>→</span>
               </Link>
-              <Link to="/#mapa" className="h-12 px-6 border border-white/40 text-white text-[12px] font-bold uppercase tracking-widest hover:bg-white/10 transition-colors inline-flex items-center gap-2">
+              <Link
+                to="/#mapa"
+                onClick={() => document.getElementById('mapa')?.scrollIntoView({ behavior: 'smooth' })}
+                className="h-12 px-6 border border-white/40 text-white text-[12px] font-bold uppercase tracking-widest hover:bg-white/10 transition-colors inline-flex items-center gap-2"
+              >
                 Ver el mapa
               </Link>
             </div>

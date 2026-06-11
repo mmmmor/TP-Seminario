@@ -422,7 +422,7 @@ export default function Hero({ stats = {}, reports = [] }) {
                 Crear un reporte
                 <span className="opacity-60 group-hover:translate-x-0.5 transition-transform">→</span>
               </button>
-              <a href="#mapa" className="h-12 px-6 border border-neutral-900 text-neutral-900 text-[12px] font-bold uppercase tracking-widest hover:bg-neutral-900 hover:text-white transition-colors inline-flex items-center gap-2.5 no-underline">
+              <a href="#mapa" onClick={(e) => { e.preventDefault(); document.getElementById('mapa')?.scrollIntoView({ behavior: 'smooth' }); }} className="h-12 px-6 border border-neutral-900 text-neutral-900 text-[12px] font-bold uppercase tracking-widest hover:bg-neutral-900 hover:text-white transition-colors inline-flex items-center gap-2.5 no-underline">
                 <MapIcon className="w-4 h-4"/>
                 Explorar el mapa
               </a>
