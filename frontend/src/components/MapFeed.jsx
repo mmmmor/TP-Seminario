@@ -301,6 +301,16 @@ export default function MapFeed() {
   const mapRef = useRef(null);
   const mapInstanceRef = useRef(null);
   const markersRef = useRef([]);
+  const listRef = useRef(null);
+  const cardRefs = useRef({});
+
+  useEffect(() => {
+    if (!activeReport) return;
+    const el = cardRefs.current[activeReport.id];
+    if (el && listRef.current) {
+      el.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+    }
+  }, [activeReport]);
 
   useEffect(() => {
     if (mapRef.current && !mapInstanceRef.current && window.L) {
@@ -451,18 +461,20 @@ export default function MapFeed() {
                 Resueltos ({reports.filter((r) => r.status === 'resolved').length})
               </FeedTab>
             </div>
-            <div className="flex-1 overflow-y-auto bg-neutral-50/50 p-3 space-y-2">
+            <div ref={listRef} className="flex-1 overflow-y-auto bg-neutral-50/50 p-3 space-y-2">
               {filtered.map((r) => (
-                <ReportCardRow key={r.id} report={r}
-                  active={activeReport && activeReport.id === r.id}
-                  onClick={() => {
-                    setActiveReport(r);
-                    if (mapInstanceRef.current) mapInstanceRef.current.flyTo([r.latitude, r.longitude], 16, { duration: 0.7 });
-                  }}
-                  onOpenDetails={() => setDetailReport(r)}
-                  vote={votes[r.id] || { score: 0, userVote: null }}
-                  onVote={(dir) => handleVote(r.id, dir)}
-                />
+                <div key={r.id} ref={(el) => { if (el) cardRefs.current[r.id] = el; else delete cardRefs.current[r.id]; }}>
+                  <ReportCardRow report={r}
+                    active={activeReport && activeReport.id === r.id}
+                    onClick={() => {
+                      setActiveReport(r);
+                      if (mapInstanceRef.current) mapInstanceRef.current.flyTo([r.latitude, r.longitude], 16, { duration: 0.7 });
+                    }}
+                    onOpenDetails={() => setDetailReport(r)}
+                    vote={votes[r.id] || { score: 0, userVote: null }}
+                    onVote={(dir) => handleVote(r.id, dir)}
+                  />
+                </div>
               ))}
             </div>
           </div>
