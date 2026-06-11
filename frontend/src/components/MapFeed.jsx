@@ -261,7 +261,6 @@ export default function MapFeed() {
       .then(({ data }) => {
         const mapped = data.map(toFeedReport);
         setReports(mapped);
-        if (mapped.length > 0) setActiveReport(mapped[0]);
         const init = {};
         mapped.forEach(r => { init[r.id] = { score: r.vote_score ?? 0, userVote: null }; });
         setVotes(init);
@@ -308,7 +307,7 @@ export default function MapFeed() {
     if (!activeReport) return;
     const el = cardRefs.current[activeReport.id];
     if (el && listRef.current) {
-      el.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+      listRef.current.scrollTo({ top: el.offsetTop - listRef.current.offsetTop, behavior: 'smooth' });
     }
   }, [activeReport]);
 
