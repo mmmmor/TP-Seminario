@@ -1,4 +1,5 @@
 // src/components/Sections.jsx
+import { Link } from 'react-router-dom';
 import { SectionEyemark, CameraIcon, MapPinIcon, CheckIcon, UserIcon } from './Icons';
 import { Logo } from './Icons';
 
@@ -324,9 +325,9 @@ export function ClosingCTA() {
               Creá tu cuenta gratis y empezá a reportar. Solo necesitamos tu nombre, email y una contraseña.
             </p>
             <div className="flex flex-wrap gap-3">
-              <button className="h-12 px-6 bg-white text-[#7C3AED] text-[12px] font-bold uppercase tracking-widest hover:bg-neutral-100 transition-colors inline-flex items-center gap-2">
+              <Link to="/registro" className="h-12 px-6 bg-white text-[#7C3AED] text-[12px] font-bold uppercase tracking-widest hover:bg-neutral-100 transition-colors inline-flex items-center gap-2">
                 Registrarme <span>→</span>
-              </button>
+              </Link>
               <button className="h-12 px-6 border border-white/40 text-white text-[12px] font-bold uppercase tracking-widest hover:bg-white/10 transition-colors inline-flex items-center gap-2">
                 Ver el mapa
               </button>
