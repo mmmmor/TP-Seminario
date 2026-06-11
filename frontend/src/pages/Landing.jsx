@@ -13,7 +13,7 @@ const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8000'
 const CATEGORY_COLORS = {
   baches:       '#EF4444',
   alumbrado:    '#8B5CF6',
-  residuos:     '#F97316',
+  residuos:     '#88cc00',
   construccion: '#FACC15',
   extravios:    '#0EA5E9',
   otros:        '#6B7280',

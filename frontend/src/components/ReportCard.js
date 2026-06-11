@@ -3,20 +3,18 @@ import { MapPin, User as UserIcon, Calendar } from '@phosphor-icons/react';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8000';
 
-// Configuración de estilos por categoría
-const styles = {
-  categories: {
-    baches: 'bg-red-500',
-    residuos: 'bg-orange-500',
-    alumbrado: 'bg-violet-500',
-    construccion: 'bg-yellow-400',
-    extravios: 'bg-sky-500',
-    otros: 'bg-gray-500',
-  },
-  status: {
-    pending: 'bg-amber-500',
-    resolved: 'bg-emerald-500'
-  }
+const CATEGORY_COLORS = {
+  baches:       '#EF4444',
+  residuos:     '#88cc00',
+  alumbrado:    '#8B5CF6',
+  construccion: '#FACC15',
+  extravios:    '#0EA5E9',
+  otros:        '#6B7280',
+};
+
+const STATUS_CLASSES = {
+  pending:  'bg-amber-500',
+  resolved: 'bg-emerald-500',
 };
 
 export const ReportCard = ({ report }) => {
@@ -33,10 +31,10 @@ export const ReportCard = ({ report }) => {
       <div className="p-4">
         {/* Etiquetas de Categoría y Estado */}
         <div className="flex gap-2 mb-3">
-          <span className={`px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white ${styles.categories[report.category] || 'bg-gray-500'}`}>
+          <span className="px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white" style={{ backgroundColor: CATEGORY_COLORS[report.category] || '#6B7280' }}>
             {report.category}
           </span>
-          <span className={`px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white ${styles.status[report.status]}`}>
+          <span className={`px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white ${STATUS_CLASSES[report.status]}`}>
             {report.status === 'pending' ? 'Pendiente' : 'Resuelto'}
           </span>
         </div>

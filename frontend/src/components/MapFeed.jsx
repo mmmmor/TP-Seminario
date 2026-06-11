@@ -120,7 +120,7 @@ function AuthPopup({ onClose, message = 'Iniciá sesión o creá una cuenta grat
 const CAT_OPTIONS = [
   { id: 'baches',       label: 'Baches',       color: '#EF4444' },
   { id: 'alumbrado',    label: 'Alumbrado',    color: '#8B5CF6' },
-  { id: 'residuos',     label: 'Residuos',     color: '#F97316' },
+  { id: 'residuos',     label: 'Residuos',     color: '#88cc00' },
   { id: 'construccion', label: 'Construcción', color: '#FACC15' },
   { id: 'extravios',    label: 'Extravíos',    color: '#0EA5E9' },
   { id: 'otros',        label: 'Otros',        color: '#9CA3AF' },
@@ -343,7 +343,7 @@ export default function MapFeed() {
   }, [filter, sort, catFilter, mapReady, activeReport, reports]);
 
   const CAT_LABELS = { baches: 'Baches', alumbrado: 'Alumbrado', residuos: 'Residuos', construccion: 'Construcción', extravios: 'Extravíos', otros: 'Otros' };
-  const CAT_COLORS = { baches: '#EF4444', alumbrado: '#8B5CF6', residuos: '#F97316', construccion: '#FACC15', extravios: '#0EA5E9', otros: '#9CA3AF' };
+  const CAT_COLORS = { baches: '#EF4444', alumbrado: '#8B5CF6', residuos: '#88cc00', construccion: '#FACC15', extravios: '#0EA5E9', otros: '#9CA3AF' };
 
   const microStats = (() => {
     const weekAgo  = Date.now() - 7 * 86400000;

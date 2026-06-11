@@ -118,7 +118,7 @@ export const SAMPLE_REPORTS = [
 export const CATEGORIES = [
   { id: 'baches',       label: 'Baches',       color: '#EF4444' },
   { id: 'alumbrado',    label: 'Alumbrado',    color: '#8B5CF6' },
-  { id: 'residuos',     label: 'Residuos',     color: '#F97316' },
+  { id: 'residuos',     label: 'Residuos',     color: '#88cc00' },
   { id: 'construccion', label: 'Construcción', color: '#FACC15' },
   { id: 'extravios',    label: 'Extravíos',    color: '#0EA5E9' },
   { id: 'otros',        label: 'Otros',        color: '#6B7280' },
@@ -136,7 +136,7 @@ export const STATS = {
 export const CATEGORY_BREAKDOWN = [
   { id: 'baches',       label: 'Baches',       count: 112, color: '#EF4444' },
   { id: 'alumbrado',    label: 'Alumbrado',    count:  58, color: '#8B5CF6' },
-  { id: 'residuos',     label: 'Residuos',     count:  47, color: '#F97316' },
+  { id: 'residuos',     label: 'Residuos',     count:  47, color: '#88cc00' },
   { id: 'construccion', label: 'Construcción', count:  30, color: '#FACC15' },
   { id: 'extravios',    label: 'Extravíos',    count:  18, color: '#0EA5E9' },
   { id: 'otros',        label: 'Otros',        count:   9, color: '#6B7280' },

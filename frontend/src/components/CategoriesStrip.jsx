@@ -4,7 +4,7 @@ import { SectionEyemark } from './Icons';
 const TILES = [
   { id: 'baches',       color: '#EF4444', name: 'Baches',       blurb: 'Roturas en el asfalto, pozos, hundimientos.' },
   { id: 'alumbrado',    color: '#8B5CF6', name: 'Alumbrado',    blurb: 'Luminarias apagadas, titilando o caídas.' },
-  { id: 'residuos',     color: '#F97316', name: 'Residuos',     blurb: 'Contenedores desbordados, microbasurales.' },
+  { id: 'residuos',     color: '#88cc00', name: 'Residuos',     blurb: 'Contenedores desbordados, microbasurales.' },
   { id: 'construccion', color: '#FACC15', name: 'Construcción', blurb: 'Obras en curso, cortes parciales o desvíos en la zona.' },
   { id: 'extravios',    color: '#0EA5E9', name: 'Extravíos',    blurb: 'Objetos, mascotas o documentos perdidos.' },
   { id: 'otros',        color: '#6B7280', name: 'Otros',        blurb: 'Cualquier situación que no encaje en las categorías anteriores.' },
