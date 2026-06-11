@@ -8,18 +8,10 @@ import { MapPin, Camera, MagnifyingGlass, Trash, Check } from '@phosphor-icons/r
 import ReactCrop from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
 import { Header } from '../components/Header';
+import { CATEGORIES } from '../data/landingData';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8000';
 const API = `${BACKEND_URL}/api`;
-
-const categoryLabels = {
-  baches:       'Baches',
-  alumbrado:    'Alumbrado',
-  residuos:     'Residuos',
-  construccion: 'Construcción',
-  extravios:    'Extravíos',
-  otros:        'Otros',
-};
 
 const defaultIcon = L.divIcon({
   className: 'custom-marker-icon',
@@ -74,6 +66,8 @@ export default function NewReport() {
   const [title, setTitle]           = useState('');
   const [description, setDescription] = useState('');
   const [category, setCategory]     = useState('');
+  const [catOpen, setCatOpen]       = useState(false);
+  const catRef                       = useRef(null);
   const [position, setPosition]     = useState(null);
   const [address, setAddress]       = useState('');
 
@@ -89,6 +83,15 @@ export default function NewReport() {
   const [geoError, setGeoError]           = useState('');
   const [loading, setLoading]         = useState(false);
   const [submitError, setSubmitError] = useState('');
+
+  useEffect(() => {
+    if (!catOpen) return;
+    const onDoc = (e) => { if (catRef.current && !catRef.current.contains(e.target)) setCatOpen(false); };
+    const onKey = (e) => { if (e.key === 'Escape') setCatOpen(false); };
+    document.addEventListener('mousedown', onDoc);
+    document.addEventListener('keydown', onKey);
+    return () => { document.removeEventListener('mousedown', onDoc); document.removeEventListener('keydown', onKey); };
+  }, [catOpen]);
 
   const onSelectFile = (e) => {
     if (e.target.files && e.target.files.length > 0) {
@@ -169,6 +172,7 @@ export default function NewReport() {
     e.preventDefault();
     setSubmitError('');
     if (!position)          { setSubmitError('Seleccioná una ubicación en el mapa o buscá una dirección.'); return; }
+    if (!category)          { setSubmitError('Seleccioná una categoría para el reporte.'); return; }
     if (images.length === 0) { setSubmitError('Subí al menos una imagen del problema y confirmá el recorte.'); return; }
     setLoading(true);
     try {
@@ -253,17 +257,42 @@ export default function NewReport() {
               {/* Categoría */}
               <div className="p-6 border-b border-neutral-200">
                 <FieldLabel>Categoría</FieldLabel>
-                <select
-                  value={category}
-                  onChange={(e) => setCategory(e.target.value)}
-                  required
-                  className="w-full border border-neutral-300 px-3 h-11 text-[14px] text-neutral-900 bg-white focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent appearance-none cursor-pointer"
-                >
-                  <option value="" disabled>Seleccioná una categoría</option>
-                  {Object.entries(categoryLabels).map(([value, label]) => (
-                    <option key={value} value={value}>{label}</option>
-                  ))}
-                </select>
+                <div ref={catRef} className="relative">
+                  <button
+                    type="button"
+                    onClick={() => setCatOpen((o) => !o)}
+                    className="w-full border border-neutral-300 px-3 h-11 text-[14px] bg-white focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent flex items-center gap-3 cursor-pointer"
+                  >
+                    {category ? (
+                      <>
+                        <span className="w-3 h-3 rounded-full flex-shrink-0" style={{ background: CATEGORIES.find((c) => c.id === category)?.color }}></span>
+                        <span className="text-[12px] font-bold uppercase tracking-widest text-neutral-900">
+                          {CATEGORIES.find((c) => c.id === category)?.label}
+                        </span>
+                      </>
+                    ) : (
+                      <span className="text-neutral-400">Seleccioná una categoría</span>
+                    )}
+                    <svg className="w-4 h-4 text-neutral-400 ml-auto flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="6 9 12 15 18 9"/></svg>
+                  </button>
+                  {catOpen && (
+                    <div className="absolute left-0 top-full mt-1 z-30 w-full bg-white border border-neutral-200 shadow-[0_8px_24px_-6px_rgba(0,0,0,0.18)]">
+                      {CATEGORIES.map((c) => (
+                        <button
+                          key={c.id}
+                          type="button"
+                          onClick={() => { setCategory(c.id); setCatOpen(false); }}
+                          className={`w-full text-left flex items-center gap-3 px-3 py-2.5 transition-colors
+                            ${category === c.id ? 'bg-neutral-900 text-white' : 'hover:bg-neutral-100 text-neutral-900'}`}
+                        >
+                          <span className="w-3 h-3 rounded-full flex-shrink-0" style={{ background: c.color }}></span>
+                          <span className="text-[12px] font-bold uppercase tracking-widest">{c.label}</span>
+                          {category === c.id && <Check className="w-3.5 h-3.5 ml-auto flex-shrink-0"/>}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
               </div>
 
               {/* Descripción */}
