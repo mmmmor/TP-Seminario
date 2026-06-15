@@ -51,6 +51,13 @@ function computeStats(reports) {
 export default function Landing() {
   const location = useLocation();
   const [reports, setReports] = useState([]);
+  const [pendingCat, setPendingCat] = useState(null);
+
+  const handleCategorySelect = (catId) => {
+    setPendingCat(catId);
+    const el = document.getElementById('mapa');
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  };
 
   useEffect(() => {
     if (location.hash) {
@@ -80,8 +87,8 @@ export default function Landing() {
       <Header />
       <Hero stats={stats} reports={reports} />
       <ActivityBar reports={resolvedReports} categoryColors={CATEGORY_COLORS} />
-      <CategoriesStrip catCounts={stats.catMap} />
-      <MapFeed />
+      <CategoriesStrip catCounts={stats.catMap} onCategorySelect={handleCategorySelect} />
+      <MapFeed externalCatFilter={pendingCat} />
       <HowItWorks />
       <ClosingCTA />
       <Footer />

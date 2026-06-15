@@ -242,7 +242,7 @@ function MicroStat({ label, value, delta, deltaTone, tone }) {
   );
 }
 
-export default function MapFeed() {
+export default function MapFeed({ externalCatFilter }) {
   const { user } = useAuth();
   const navigate = useNavigate();
   const [reports, setReports]     = useState([]);
@@ -255,6 +255,10 @@ export default function MapFeed() {
   const [votes, setVotes]         = useState({});
   const [catFilter, setCatFilter] = useState('all');
   const [authPopup, setAuthPopup] = useState(false);
+
+  useEffect(() => {
+    if (externalCatFilter) setCatFilter(externalCatFilter);
+  }, [externalCatFilter]);
 
   useEffect(() => {
     axios.get(`${BACKEND_URL}/api/reports`)

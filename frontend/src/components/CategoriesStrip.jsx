@@ -3,16 +3,22 @@ import { SectionEyemark } from './Icons';
 
 const TILES = [
   { id: 'baches',       color: '#EF4444', name: 'Baches',       blurb: 'Roturas en el asfalto, pozos, hundimientos.' },
-  { id: 'alumbrado',    color: '#8B5CF6', name: 'Alumbrado',    blurb: 'Luminarias apagadas, titilando o caídas.' },
+  { id: 'alumbrado',    color: '#8B5CF6', name: 'Alumbrado',    blurb: 'Luminarias apagadas, titilando o caídas. Semáforos sin funcionamiento.' },
   { id: 'residuos',     color: '#88cc00', name: 'Residuos',     blurb: 'Contenedores desbordados, microbasurales.' },
   { id: 'construccion', color: '#FACC15', name: 'Construcción', blurb: 'Obras en curso, cortes parciales o desvíos en la zona.' },
   { id: 'extravios',    color: '#0EA5E9', name: 'Extravíos',    blurb: 'Objetos, mascotas o documentos perdidos.' },
   { id: 'otros',        color: '#6B7280', name: 'Otros',        blurb: 'Cualquier situación que no encaje en las categorías anteriores.' },
 ];
 
-function CategoryTile({ color, name, count, blurb }) {
+function CategoryTile({ id, color, name, count, blurb, onSelect }) {
   return (
-    <div className="bg-white p-6 hover:bg-neutral-50 transition-colors group cursor-pointer">
+    <div
+      role="button"
+      tabIndex={0}
+      onClick={() => onSelect(id)}
+      onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onSelect(id); } }}
+      className="bg-white p-6 hover:bg-neutral-50 transition-colors group cursor-pointer flex flex-col"
+    >
       <div className="flex items-start justify-between mb-8">
         <div className="w-10 h-10 flex items-center justify-center" style={{ background: color }}>
           <div className="w-3 h-3 bg-white rounded-full"></div>
@@ -21,7 +27,7 @@ function CategoryTile({ color, name, count, blurb }) {
       </div>
       <h3 className="font-heading font-bold text-[18px] text-neutral-900 tracking-tight">{name}</h3>
       <p className="mt-1.5 text-[13px] leading-snug text-neutral-500">{blurb}</p>
-      <div className="mt-5 flex items-center text-[10px] font-bold uppercase tracking-widest" style={{ color }}>
+      <div className="mt-auto pt-5 flex items-center text-[10px] font-bold uppercase tracking-widest" style={{ color }}>
         Ver en el mapa
         <span className="ml-1.5 group-hover:translate-x-1 transition-transform">→</span>
       </div>
@@ -29,7 +35,7 @@ function CategoryTile({ color, name, count, blurb }) {
   );
 }
 
-export default function CategoriesStrip({ catCounts = {} }) {
+export default function CategoriesStrip({ catCounts = {}, onCategorySelect }) {
   return (
     <section id="categorias" className="bg-white border-b border-neutral-200">
       <div className="max-w-[1320px] mx-auto px-6 lg:px-10 py-10">
@@ -48,10 +54,12 @@ export default function CategoriesStrip({ catCounts = {} }) {
           {TILES.map(t => (
             <CategoryTile
               key={t.id}
+              id={t.id}
               color={t.color}
               name={t.name}
               blurb={t.blurb}
               count={catCounts[t.id] ?? 0}
+              onSelect={onCategorySelect || (() => {})}
             />
           ))}
         </div>
