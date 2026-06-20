@@ -874,7 +874,7 @@ export default function Admin() {
               <table className="w-full text-left border-collapse">
                 <thead className="bg-neutral-50 border-b border-neutral-200">
                   <tr>
-                    {['Imagen', 'Incidencia', 'Categoría', 'Usuario / Fecha', 'Votos', 'Estado', 'Acción'].map((h) => (
+                    {['Imagen', 'Incidencia', 'Categoría', 'Usuario / Fecha', 'Votos', 'Reporte confirmado', 'Estado', 'Acción'].map((h) => (
                       <th key={h} className="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-neutral-400">
                         {h}
                       </th>
@@ -928,6 +928,17 @@ export default function Admin() {
                         <span className="text-[13px] font-bold tabular-nums text-neutral-700">
                           {report.vote_score ?? 0}
                         </span>
+                      </td>
+
+                      <td className="px-6 py-4">
+                        <div className="flex items-center gap-1.5">
+                          <svg className="w-3.5 h-3.5 text-[#7C3AED]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                            <polyline points="20 6 9 17 4 12"/>
+                          </svg>
+                          <span className="text-[13px] font-bold tabular-nums text-neutral-700">
+                            {report.confirmation_count ?? 0}
+                          </span>
+                        </div>
                       </td>
 
                       <td className="px-6 py-4">

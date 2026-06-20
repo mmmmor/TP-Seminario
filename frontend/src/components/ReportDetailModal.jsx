@@ -1,7 +1,12 @@
 // src/components/ReportDetailModal.jsx
 import { useState, useEffect, useRef } from 'react';
+import axios from 'axios';
 import { CATEGORIES } from '../data/landingData';
 import { MapPinIcon, ClockIcon, UserIcon, CheckIcon } from './Icons';
+import { useAuth } from '../contexts/AuthContext';
+
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8000';
+const API = `${BACKEND_URL}/api`;
 
 function MetaCell({ label, value, icon, span }) {
   return (
@@ -42,6 +47,7 @@ function VoteButtons({ score, userVote, onVote }) {
 }
 
 export default function ReportDetailModal({ report, onClose, vote, onVote }) {
+  const { user } = useAuth();
   const cat = CATEGORIES.find((c) => c.id === report.category) || CATEGORIES[3];
   const statusTone = report.status === 'pending' ? '#F59E0B' : '#10B981';
   const statusLabel = report.status === 'pending' ? 'Pendiente' : 'Resuelto';
@@ -49,6 +55,10 @@ export default function ReportDetailModal({ report, onClose, vote, onVote }) {
 
   const [activePhoto, setActivePhoto] = useState(0);
   const [imgError, setImgError] = useState({});
+  const [showConfirmDialog, setShowConfirmDialog] = useState(false);
+  const [confirming, setConfirming] = useState(false);
+  const [confirmed, setConfirmed] = useState(false);
+  const [confirmCount, setConfirmCount] = useState(report.confirmation_count ?? 0);
 
   const mapRef = useRef(null);
   const mapInstanceRef = useRef(null);
@@ -76,7 +86,12 @@ export default function ReportDetailModal({ report, onClose, vote, onVote }) {
   }, [report.id]);
 
   useEffect(() => {
-    const onKey = (e) => { if (e.key === 'Escape') onClose(); };
+    const onKey = (e) => {
+      if (e.key === 'Escape') {
+        if (showConfirmDialog) setShowConfirmDialog(false);
+        else onClose();
+      }
+    };
     document.addEventListener('keydown', onKey);
     const prevOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
@@ -84,7 +99,22 @@ export default function ReportDetailModal({ report, onClose, vote, onVote }) {
       document.removeEventListener('keydown', onKey);
       document.body.style.overflow = prevOverflow;
     };
-  }, [onClose]);
+  }, [onClose, showConfirmDialog]);
+
+  const handleConfirmYes = async () => {
+    if (!user) return;
+    setConfirming(true);
+    try {
+      const { data } = await axios.post(`${API}/reports/${report.id}/confirm`);
+      setConfirmCount(data.confirmation_count);
+      setConfirmed(true);
+    } catch (err) {
+      console.error('Error confirming report:', err);
+    } finally {
+      setConfirming(false);
+      setShowConfirmDialog(false);
+    }
+  };
 
   return (
     <div className="fixed inset-0 z-[1000] flex items-center justify-center p-4 sm:p-8"
@@ -184,15 +214,59 @@ export default function ReportDetailModal({ report, onClose, vote, onVote }) {
             <div ref={mapRef} style={{ height: 200 }} className="w-full border border-neutral-200 bg-neutral-100"></div>
           </div>
           <div className="mt-auto p-5 pt-3 border-t border-neutral-200 flex items-center gap-2">
-            <button className="flex-1 h-11 bg-[#7C3AED] text-white text-[11px] font-bold uppercase tracking-widest hover:bg-[#6D28D9] transition-colors flex items-center justify-center gap-2">
-              <CheckIcon className="w-3.5 h-3.5"/>
-              Confirmar reporte
-            </button>
+            {confirmed ? (
+              <button disabled className="flex-1 h-11 bg-[#10B981] text-white text-[11px] font-bold uppercase tracking-widest flex items-center justify-center gap-2 cursor-default">
+                <CheckIcon className="w-3.5 h-3.5"/>
+                ¡Confirmado! ({confirmCount})
+              </button>
+            ) : (
+              <button
+                onClick={() => user ? setShowConfirmDialog(true) : null}
+                disabled={!user}
+                title={!user ? 'Iniciá sesión para confirmar este reporte' : ''}
+                className={`flex-1 h-11 text-white text-[11px] font-bold uppercase tracking-widest transition-colors flex items-center justify-center gap-2
+                  ${user ? 'bg-[#7C3AED] hover:bg-[#6D28D9] cursor-pointer' : 'bg-neutral-300 cursor-not-allowed'}`}
+              >
+                <CheckIcon className="w-3.5 h-3.5"/>
+                Confirmar reporte
+              </button>
+            )}
             <button className="h-11 px-4 border border-neutral-300 text-[11px] font-bold uppercase tracking-widest text-neutral-700 hover:bg-neutral-50 transition-colors">
               Compartir
             </button>
           </div>
         </div>
+
+        {showConfirmDialog && (
+          <div className="absolute inset-0 z-20 flex items-center justify-center bg-white/80 backdrop-blur-sm"
+               onClick={() => setShowConfirmDialog(false)}>
+            <div className="bg-white border border-neutral-200 shadow-[0_20px_60px_-10px_rgba(0,0,0,0.35)] p-8 w-[320px] flex flex-col items-center gap-5"
+                 onClick={(e) => e.stopPropagation()}>
+              <div className="w-12 h-12 rounded-full bg-[#7C3AED]/10 flex items-center justify-center">
+                <CheckIcon className="w-6 h-6 text-[#7C3AED]"/>
+              </div>
+              <div className="text-center">
+                <p className="font-heading font-bold text-[18px] text-neutral-900 leading-tight mb-1">¿El reporte sigue allí?</p>
+                <p className="text-[12px] text-neutral-500">Confirmá si el problema aún está presente en el lugar indicado.</p>
+              </div>
+              <div className="flex gap-3 w-full">
+                <button
+                  onClick={() => setShowConfirmDialog(false)}
+                  className="flex-1 h-10 border border-neutral-300 text-[11px] font-bold uppercase tracking-widest text-neutral-700 hover:bg-neutral-50 transition-colors"
+                >
+                  No
+                </button>
+                <button
+                  onClick={handleConfirmYes}
+                  disabled={confirming}
+                  className="flex-1 h-10 bg-[#7C3AED] text-white text-[11px] font-bold uppercase tracking-widest hover:bg-[#6D28D9] transition-colors disabled:opacity-60"
+                >
+                  {confirming ? '...' : 'Sí'}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

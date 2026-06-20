@@ -163,6 +163,7 @@ class ReportResponse(BaseModel):
     image_path: Optional[str] = None
     image_paths: Optional[List[str]] = None
     vote_score: Optional[int] = None
+    confirmation_count: Optional[int] = None
     user_id: str
     user_name: str
     created_at: str
@@ -221,6 +222,7 @@ async def startup():
         await db.users.create_index("email", unique=True)
         await db.login_attempts.create_index("identifier")
         await db.votes.create_index([("report_id", 1), ("user_id", 1)], unique=True)
+        await db.confirmations.create_index([("report_id", 1), ("user_id", 1)], unique=True)
         await seed_admin()
         logger.info("Application started successfully")
     except Exception as e:
@@ -345,11 +347,17 @@ async def get_reports(status: Optional[str] = None):
         for item in vote_agg:
             rid = item["_id"]["report_id"]
             score_map[rid] = score_map.get(rid, 0) + (item["count"] if item["_id"]["direction"] == "up" else -item["count"])
+        conf_agg = await db.confirmations.aggregate([
+            {"$match": {"report_id": {"$in": report_ids}}},
+            {"$group": {"_id": "$report_id", "count": {"$sum": 1}}}
+        ]).to_list(None)
+        conf_map = {item["_id"]: item["count"] for item in conf_agg}
         for report in reports:
             if "vote_score_override" in report:
                 report["vote_score"] = report["vote_score_override"]
             else:
                 report["vote_score"] = score_map.get(report["id"], 0)
+            report["confirmation_count"] = conf_map.get(report["id"], 0)
     return reports
 
 @api_router.post("/reports/{report_id}/vote")
@@ -378,6 +386,23 @@ async def get_my_votes(request: Request):
     user = await get_current_user(request)
     votes = await db.votes.find({"user_id": user["_id"]}, {"_id": 0, "report_id": 1, "direction": 1}).to_list(None)
     return {v["report_id"]: v["direction"] for v in votes}
+
+@api_router.post("/reports/{report_id}/confirm")
+async def confirm_report(report_id: str, request: Request):
+    user = await get_current_user(request)
+    report = await db.reports.find_one({"id": report_id})
+    if not report:
+        raise HTTPException(status_code=404, detail="Report not found")
+    existing = await db.confirmations.find_one({"report_id": report_id, "user_id": user["_id"]})
+    already_confirmed = existing is not None
+    if not already_confirmed:
+        await db.confirmations.insert_one({
+            "report_id": report_id,
+            "user_id": user["_id"],
+            "created_at": datetime.now(timezone.utc).isoformat()
+        })
+    count = await db.confirmations.count_documents({"report_id": report_id})
+    return {"confirmation_count": count, "already_confirmed": already_confirmed}
 
 @api_router.get("/reports/stats", response_model=StatsResponse)
 async def get_stats():
