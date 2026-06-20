@@ -783,7 +783,7 @@ export default function Admin() {
       <div className="iv-auth-grid fixed inset-0 pointer-events-none opacity-[0.45]" />
 
       {/* Header */}
-      <header className="relative z-10 bg-white border-b border-neutral-200 sticky top-0">
+      <header className="relative z-20 bg-white border-b border-neutral-200 sticky top-0">
         <div className="max-w-[1320px] mx-auto px-6 lg:px-10 h-16 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2.5 no-underline">
             <Logo />
