@@ -255,6 +255,7 @@ export default function MapFeed({ externalCatFilter }) {
   const [votes, setVotes]         = useState({});
   const [catFilter, setCatFilter] = useState('all');
   const [authPopup, setAuthPopup] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
     if (externalCatFilter) setCatFilter(externalCatFilter);
@@ -378,10 +379,16 @@ export default function MapFeed({ externalCatFilter }) {
     return { thisWeek, topCat, topCatPct, topBarrio };
   })();
 
+  const normalizedQuery = searchQuery.trim().toLowerCase();
+
   const filtered = reports
     .filter((r) => {
       if (filter !== 'all' && r.status !== filter) return false;
       if (catFilter !== 'all' && r.category !== catFilter) return false;
+      if (normalizedQuery) {
+        const haystack = `${r.title} ${r.description} ${r.address}`.toLowerCase();
+        if (!haystack.includes(normalizedQuery)) return false;
+      }
       return true;
     })
     .slice()
@@ -403,7 +410,9 @@ export default function MapFeed({ externalCatFilter }) {
           <div className="flex items-center gap-3">
             <div className="hidden sm:flex items-center gap-2 h-10 px-3 border border-neutral-300 bg-white min-w-[260px]">
               <SearchIcon className="w-4 h-4 text-neutral-400"/>
-              <input type="text" placeholder="Buscar por dirección o barrio"
+              <input type="text" placeholder="Buscar por dirección o título"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
                 className="flex-1 bg-transparent border-0 outline-none text-[12px] placeholder:text-neutral-400 text-neutral-900"/>
             </div>
             <button onClick={() => user ? navigate('/nuevo-reporte') : setAuthPopup('reporte')} className="h-10 px-4 bg-[#7C3AED] text-white text-[11px] font-bold uppercase tracking-widest hover:bg-[#6D28D9] transition-colors inline-flex items-center gap-2">
