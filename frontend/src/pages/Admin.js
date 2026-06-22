@@ -756,7 +756,9 @@ export default function Admin() {
     })
     .sort((a, b) => {
       if (sort === 'relevantes') {
-        if (a.status !== b.status) return a.status === 'pending' ? -1 : 1;
+        const scoreDiff = (b.vote_score ?? 0) - (a.vote_score ?? 0);
+        if (scoreDiff !== 0) return scoreDiff;
+        return new Date(b.created_at) - new Date(a.created_at);
       }
       return new Date(b.created_at) - new Date(a.created_at);
     });
