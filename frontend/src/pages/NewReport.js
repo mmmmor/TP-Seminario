@@ -77,12 +77,65 @@ export default function NewReport() {
   const [completedCrop, setCompletedCrop] = useState(null);
   const imageRef = useRef(null);
 
+  const [showCamera, setShowCamera]   = useState(false);
+  const [cameraStream, setCameraStream] = useState(null);
+  const [cameraError, setCameraError] = useState('');
+  const videoRef = useRef(null);
+
   const [searchQuery, setSearchQuery] = useState('');
   const [isSearching, setIsSearching] = useState(false);
   const [isGeolocating, setIsGeolocating] = useState(false);
   const [geoError, setGeoError]           = useState('');
   const [loading, setLoading]         = useState(false);
   const [submitError, setSubmitError] = useState('');
+
+  useEffect(() => {
+    if (showCamera && cameraStream && videoRef.current) {
+      videoRef.current.srcObject = cameraStream;
+      videoRef.current.play().catch(() => {});
+    }
+  }, [showCamera, cameraStream]);
+
+  const openCamera = async () => {
+    setCameraError('');
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+      setCameraStream(stream);
+      setShowCamera(true);
+    } catch (err) {
+      const msgs = {
+        NotAllowedError: 'Permiso de cámara denegado. Habilitalo en la configuración del navegador.',
+        NotFoundError: 'No se encontró ninguna cámara en este dispositivo.',
+      };
+      setCameraError(msgs[err.name] || 'No se pudo acceder a la cámara.');
+    }
+  };
+
+  const closeCamera = () => {
+    if (cameraStream) cameraStream.getTracks().forEach((t) => t.stop());
+    setCameraStream(null);
+    setShowCamera(false);
+  };
+
+  const capturePhoto = () => {
+    if (!videoRef.current) return;
+    const video = videoRef.current;
+    const canvas = document.createElement('canvas');
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    canvas.getContext('2d').drawImage(video, 0, 0);
+    canvas.toBlob((blob) => {
+      if (!blob) return;
+      const reader = new FileReader();
+      reader.addEventListener('load', () => {
+        setEditingSrc(reader.result);
+        setCrop({ unit: '%', width: 50, height: 50, x: 25, y: 25 });
+        setCompletedCrop(null);
+      });
+      reader.readAsDataURL(blob);
+      closeCamera();
+    }, 'image/jpeg');
+  };
 
   useEffect(() => {
     if (!catOpen) return;
@@ -366,17 +419,24 @@ export default function NewReport() {
                 {/* Botones agregar */}
                 {!editingSrc && images.length < 5 && (
                   <div className="flex gap-2">
-                    <label className="flex-1 flex items-center justify-center gap-2 h-12 border-2 border-dashed border-neutral-300 bg-neutral-50 hover:border-primary hover:bg-neutral-100 transition-colors cursor-pointer">
+                    <button
+                      type="button"
+                      onClick={openCamera}
+                      className="flex-1 flex items-center justify-center gap-2 h-12 border-2 border-dashed border-neutral-300 bg-neutral-50 hover:border-primary hover:bg-neutral-100 transition-colors cursor-pointer"
+                    >
                       <Camera size={18} className="text-neutral-400" />
                       <span className="text-[11px] font-bold uppercase tracking-widest text-neutral-400">Sacar foto</span>
-                      <input type="file" accept="image/*" capture="environment" onChange={onSelectFile} className="hidden" />
-                    </label>
+                    </button>
                     <label className="flex-1 flex items-center justify-center gap-2 h-12 border-2 border-dashed border-neutral-300 bg-neutral-50 hover:border-primary hover:bg-neutral-100 transition-colors cursor-pointer">
                       <UploadSimple size={18} className="text-neutral-400" />
                       <span className="text-[11px] font-bold uppercase tracking-widest text-neutral-400">Subir foto</span>
                       <input type="file" accept="image/*" onChange={onSelectFile} className="hidden" />
                     </label>
                   </div>
+                )}
+
+                {cameraError && (
+                  <p className="text-[11px] font-mono text-red-500 mt-2">{cameraError}</p>
                 )}
 
                 {images.length === 5 && !editingSrc && (
@@ -489,6 +549,31 @@ export default function NewReport() {
           </div>
         </div>
       </main>
+      {/* Modal de cámara */}
+      {showCamera && (
+        <div className="fixed inset-0 z-[200] bg-black/80 flex items-center justify-center p-4">
+          <div className="bg-white w-full max-w-lg flex flex-col">
+            <div className="flex items-center justify-between px-4 py-3 border-b border-neutral-200">
+              <span className="text-[11px] font-bold uppercase tracking-widest text-neutral-700">Sacar foto</span>
+              <button type="button" onClick={closeCamera} className="text-neutral-400 hover:text-neutral-900 transition-colors text-xl leading-none">&times;</button>
+            </div>
+            <div className="bg-black flex items-center justify-center" style={{ minHeight: 280 }}>
+              <video ref={videoRef} autoPlay playsInline muted className="max-w-full max-h-[60vh] object-contain" />
+            </div>
+            <div className="flex gap-2 p-4">
+              <button type="button" onClick={closeCamera}
+                className="flex-1 h-10 border border-neutral-300 text-neutral-700 text-[11px] font-bold uppercase tracking-widest hover:bg-neutral-100 transition-colors">
+                Cancelar
+              </button>
+              <button type="button" onClick={capturePhoto}
+                className="flex-1 h-10 bg-primary text-white text-[11px] font-bold uppercase tracking-widest hover:bg-[#6D28D9] transition-colors inline-flex items-center justify-center gap-2">
+                <Camera size={14} /> Capturar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }
