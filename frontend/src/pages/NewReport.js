@@ -4,7 +4,7 @@ import { useAuth } from '../contexts/AuthContext';
 import { MapContainer, TileLayer, Marker, useMapEvents } from 'react-leaflet';
 import L from 'leaflet';
 import axios from 'axios';
-import { MapPin, Camera, MagnifyingGlass, Trash, Check } from '@phosphor-icons/react';
+import { MapPin, Camera, MagnifyingGlass, Trash, Check, UploadSimple } from '@phosphor-icons/react';
 import ReactCrop from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
 import { Header } from '../components/Header';
@@ -363,15 +363,20 @@ export default function NewReport() {
                   </div>
                 )}
 
-                {/* Botón agregar */}
+                {/* Botones agregar */}
                 {!editingSrc && images.length < 5 && (
-                  <label className="flex items-center justify-center gap-2 w-full h-12 border-2 border-dashed border-neutral-300 bg-neutral-50 hover:border-primary hover:bg-neutral-100 transition-colors cursor-pointer">
-                    <Camera size={18} className="text-neutral-400" />
-                    <span className="text-[11px] font-bold uppercase tracking-widest text-neutral-400">
-                      {images.length === 0 ? 'Subir foto' : 'Agregar otra foto'}
-                    </span>
-                    <input type="file" accept="image/*" onChange={onSelectFile} className="hidden" />
-                  </label>
+                  <div className="flex gap-2">
+                    <label className="flex-1 flex items-center justify-center gap-2 h-12 border-2 border-dashed border-neutral-300 bg-neutral-50 hover:border-primary hover:bg-neutral-100 transition-colors cursor-pointer">
+                      <Camera size={18} className="text-neutral-400" />
+                      <span className="text-[11px] font-bold uppercase tracking-widest text-neutral-400">Sacar foto</span>
+                      <input type="file" accept="image/*" capture="environment" onChange={onSelectFile} className="hidden" />
+                    </label>
+                    <label className="flex-1 flex items-center justify-center gap-2 h-12 border-2 border-dashed border-neutral-300 bg-neutral-50 hover:border-primary hover:bg-neutral-100 transition-colors cursor-pointer">
+                      <UploadSimple size={18} className="text-neutral-400" />
+                      <span className="text-[11px] font-bold uppercase tracking-widest text-neutral-400">Subir foto</span>
+                      <input type="file" accept="image/*" onChange={onSelectFile} className="hidden" />
+                    </label>
+                  </div>
                 )}
 
                 {images.length === 5 && !editingSrc && (
